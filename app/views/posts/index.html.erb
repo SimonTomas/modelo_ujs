@@ -1,6 +1,17 @@
 <p id="notice"><%= notice %></p>
 
+<h3>Buscador</h3>
+<%= form_tag(root_path, method: :get, remote: true) do %>
+  <%= text_field_tag :q, nil, placeholder: 'Buscar...' %>
+  <%= submit_tag 'Buscar' %>
+<% end %>
+
 <h1>Posts</h1>
+
+<%= render 'form', post: @post%>
+
+<% @rand = { post: {title: 'post random', content: 'post random'}} %>
+<%= link_to 'crear post random', @rand, method: :post, remote: true %>
 
 <table>
   <thead>
@@ -11,16 +22,14 @@
     </tr>
   </thead>
 
-  <tbody>
-    <% @posts.each do |post| %>
-      <tr>
-        <td><%= post.title %></td>
-        <td><%= post.content %></td>
-        <td><%= link_to 'Show', post %></td>
-        <td><%= link_to 'Edit', edit_post_path(post) %></td>
-        <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  <tbody id='tbody'>
+
+    <% @posts.each do |post|%>
+      <tr id="post_<%= post.id %>">
+        <%= render post %>
       </tr>
     <% end %>
+
   </tbody>
 </table>
 

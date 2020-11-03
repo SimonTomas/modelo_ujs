@@ -5,6 +5,10 @@ class PostsController < ApplicationController
   # GET /posts.json
   def index
     @posts = Post.all
+    @post = Post.new
+
+    search = params[:q]
+    @posts = Post.where('title LIKE ? OR content LIKE ?', "%#{search}%", "%#{search}%") if search
   end
 
   # GET /posts/1
@@ -29,10 +33,12 @@ class PostsController < ApplicationController
     respond_to do |format|
       if @post.save
         format.html { redirect_to @post, notice: 'Post was successfully created.' }
-        format.json { render :show, status: :created, location: @post }
+        # format.json { render :show, status: :created, location: @post }
+        format.js { @post }
       else
         format.html { render :new }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
+        # format.json { render json: @post.errors, status: :unprocessable_entity }
+        format.js { render :index }
       end
     end
   end
@@ -43,10 +49,13 @@ class PostsController < ApplicationController
     respond_to do |format|
       if @post.update(post_params)
         format.html { redirect_to @post, notice: 'Post was successfully updated.' }
-        format.json { render :show, status: :ok, location: @post }
+        # format.json { render :show, status: :ok, location: @post }
+        format.js { @post }
       else
         format.html { render :edit }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
+        # format.json { render json: @post.errors, status: :unprocessable_entity }
+        format.js { render :index }
+
       end
     end
   end
