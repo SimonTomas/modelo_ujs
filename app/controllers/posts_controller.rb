@@ -9,6 +9,12 @@ class PostsController < ApplicationController
 
     search = params[:q]
     @posts = Post.where('title LIKE ? OR content LIKE ?', "%#{search}%", "%#{search}%") if search
+
+    respond_to do |format|
+      format.html { @posts }
+      format.js { @posts }
+    end
+
   end
 
   # GET /posts/1

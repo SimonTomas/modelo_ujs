@@ -1,1 +1,1 @@
-document.querySelector('#tbody').innerHTML += '<tr id="post_<%=@post.id%>"></tr> '
+document.querySelector('#my_posts').innerHTML += '<tr id="post_<%=@post.id%>"><%= j render @post %></tr>'
